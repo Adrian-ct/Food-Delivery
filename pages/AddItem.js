@@ -17,7 +17,15 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { saveItem } from "../utils/firebaseFunctions";
+import { useSetRecoilState } from "recoil";
+import { foodItemsAtom } from "../atoms/initialState";
+import { getAllFoodItems } from "../utils/firebaseFunctions";
+import { useEffect } from "react";
+
 const AddItem = () => {
+  const setFoodItems = useSetRecoilState(foodItemsAtom);
+
   const [title, setTitle] = React.useState("");
   const [calories, setCalories] = React.useState("");
   const [price, setPrice] = React.useState("");
@@ -84,7 +92,7 @@ const AddItem = () => {
     setIsLoading(true);
 
     try {
-      if (!title || !calories || imageAsset || !price || !category) {
+      if (!title || !calories || !imageAsset || !price || !category) {
         throw new Error("Please fill all the fields");
       } else {
         const data = {
@@ -96,6 +104,16 @@ const AddItem = () => {
           category,
           qty: 1,
         };
+        saveItem(data);
+
+        setIsLoading(false);
+        setFields(true);
+        setMsg("Data uploaded successfully");
+        setAlertStatus("success");
+        clearData();
+        setTimeout(() => {
+          setFields(false);
+        }, 4000);
       }
     } catch (error) {
       console.log(error);
@@ -107,7 +125,23 @@ const AddItem = () => {
         setFields(false);
       }, 4000);
     }
+    fetchData();
   };
+
+  const clearData = () => {
+    setTitle("");
+    setCalories("");
+    setPrice("");
+    setImageAsset(null);
+    setCategory("Select Category");
+  };
+
+  const fetchData = async () => {
+    await getAllFoodItems().then((items) => {
+      setFoodItems(items);
+    });
+  };
+
   return (
     <div className="w-full py-15 h-[100vh]  flex items-start justify-center">
       <div className="w-[90%]  max-h-[85%]  overflow-y-scroll md:w-[75%] rounded-xl gap-10 p-8 bg-primary flex flex-col items-center border-solid  border-2 justify-center">
@@ -131,6 +165,8 @@ const AddItem = () => {
           <input
             type="text"
             required
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Give me a title..."
             className="bg-transparent font-bold w-full h-full outline-none border-none placeholder:text-gray-400 text-textColor"
           ></input>
