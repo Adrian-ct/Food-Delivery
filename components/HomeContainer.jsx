@@ -50,33 +50,33 @@ const HomeContainer = () => {
           Order Now!
         </button>
       </div>
-      <div className="py-2 flex-1 flex relative items-center justify-center md:justify-end">
-        <Image
-          src={HeroBg}
-          className="h-[420px] w-full lg:w-auto lg:h-[650px] ml-auto"
-          alt="hero-bg"
-        />
+      <div className="py-2 flex-1 flex relative  w-full items-center justify-center lg:justify-end  ">
+        <div className="lg:w-[75%] lg:h-[57rem] relative">
+          <Image src={HeroBg} alt="hero-bg" layout="fill" />
+        </div>
         <div
-          className=" w-auto flex-wrap  absolute top-0  gap-x-10 gap-y-20  lg:gap-y-32 md:-left-[7rem] flex  items-center justify-center
-          lg:px-32  py-20  "
+          className=" w-auto flex-wrap absolute top-0  gap-x-10 gap-y-20  lg:gap-y-32 md:-left-[7rem] flex
+          items-center justify-center
+          lg:px-36  py-20  "
         >
           {heroData.map((item, index) => (
             <div
               key={item.id}
-              className="p-4 w-48 md:w-32 lg:w-190  rounded-3xl flex flex-col items-center justify-center  bg-cardOverlay backdrop-blur-xl
-               drop-shadow-md "
+              className="p-4  w-48 md:w-32 lg:w-300  rounded-3xl flex flex-col items-center justify-center 
+               bg-cardOverlay backdrop-blur-xl drop-shadow-md "
             >
               <div className="-mt-20">
                 <Image src={item.imageSrc} alt="i1" />
               </div>
-              <p className="text-base lg:text-xl  font-semibold text-textColor mt-2 lg:mt-4">
+              <p className="text-base lg:text-2xl  font-semibold text-textColor mt-2 lg:mt-4">
                 {item.name}
               </p>
-              <p className="text-[12px] lg:text-sm text-lighttextGray font-semibold my-1 lg:my-3">
+              <p className="text-[12px] lg:text-2xl text-lighttextGray font-semibold my-1 lg:my-3">
                 {item.desc}
               </p>
-              <p className="text-sm font-semibold text-headingColor">
-                <span className="text-xs text-red-500">$</span> {item.price}
+              <p className="text-sm lg:text-xl font-semibold text-headingColor">
+                <span className="text-xs lg:text-xl text-red-500">$</span>{" "}
+                {item.price}
               </p>
             </div>
           ))}
